@@ -1,0 +1,24 @@
+numpy
+tensorflow
+keras
+Pillow
+Flask
+Flask-CORS
+Flask-JWT-Extended
+requests
+python-dotenv
+google-genai
+gunicorn
+pymongo[srv]
+dnspython
+reportlab
+qrcode[pil]
+bcrypt
+
+# ── Phase 3A: RAG Agriculture Expert ─────────────
+langchain
+langchain-community
+faiss-cpu
+langchain-huggingface
+sentence-transformers
+pypdf

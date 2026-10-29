@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="KrishiPrahari AI — Advanced AI-powered plant disease detection, analytics, and smart farming intelligence platform.">
+  <title>KrishiPrahari AI — AI-Powered Plant Disease Detection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <!-- AI LOADER OVERLAY -->
+  <div id="ai-loader-overlay" class="ai-loader-overlay hidden">
+    <div class="ai-loader-content">
+      <div class="ai-loader-orb"></div>
+      <div class="ai-loader-icon">🔬</div>
+      <div class="ai-loader-step" id="ai-loader-step">Analyzing leaf patterns…</div>
+      <div class="ai-loader-bar-track"><div class="ai-loader-bar" id="ai-loader-bar"></div></div>
+      <p class="ai-loader-sub">Deep learning model processing your image</p>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- BACKGROUND -->
+  <div class="bg-effects" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="noise-overlay"></div>
+    <canvas id="particles-canvas"></canvas>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#" data-page="home" id="nav-logo-link">
+        <span class="logo-icon">🌿</span>
+        <span class="logo-text">KrishiPrahari <span class="logo-accent">AI</span></span>
+        <span class="live-badge"><span class="live-dot"></span>Live</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="#" class="nav-link nav-page-link active-nav" data-page="home" data-i18n="nav_home">🏠 Home</a>
+        <a href="#" class="nav-link nav-page-link" data-page="history" data-i18n="nav_history">📋 History</a>
+        <a href="#" class="nav-link nav-page-link" data-page="analytics" data-i18n="nav_analytics">📊 Analytics</a>
+        <a href="#" class="nav-link nav-page-link" data-page="plants" id="nav-plants-link">🌿 Plants</a>
+        <a href="#" class="nav-link nav-page-link" data-page="feedback" data-i18n="nav_feedback">⭐ Feedback</a>
+        <!-- LANGUAGE TOGGLE -->
+        <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language selector">
+          <button class="lang-btn active" id="lang-en" data-lang="en">EN</button>
+          <button class="lang-btn" id="lang-hi" data-lang="hi">हिंदी</button>
+        </div>
+        <!-- GUEST LINKS -->
+        <div class="nav-auth-group" id="nav-guest-links">
+          <a href="#" class="nav-link nav-auth-link" id="btn-nav-login" data-i18n="nav_login">Login</a>
+          <a href="#" class="nav-btn-register" id="btn-nav-register" data-i18n="nav_register">Register</a>
+        </div>
+        <!-- AUTH LINKS -->
+        <div class="nav-auth-group hidden" id="nav-auth-links">
+          <span class="nav-welcome-pill" id="nav-welcome-pill">👤 User</span>
+          <a href="#" class="nav-link nav-page-link" data-page="profile" id="btn-nav-profile" data-i18n="nav_profile">Profile</a>
+          <a href="#" class="nav-admin-badge hidden" id="btn-nav-admin" data-page="admin">⚙️ Admin</a>
+          <a href="#" class="nav-link nav-logout-link" id="btn-nav-logout" data-i18n="nav_logout">Logout</a>
+        </div>
+        <a href="#detector" class="nav-cta-btn" id="nav-cta" data-i18n="nav_try_free">Try Free →</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════ HOME PAGE ══════════════ -->
+  <div id="page-home" class="page-section">
+
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <div class="hero-badge anim-fade-up" style="--delay:0s"><span class="badge-dot"></span>AI-Powered Agriculture Intelligence</div>
+        <h1 class="hero-title anim-fade-up" style="--delay:0.1s">
+          <span class="gradient-text">AI-Powered</span><br>Plant Disease<br><span class="gradient-text-green">Detection</span>
+        </h1>
+        <p class="hero-subtitle anim-fade-up" style="--delay:0.2s">
+          Advanced Crop Intelligence &amp; Smart Farming Assistant —<br>diagnose plant diseases instantly with cutting-edge deep learning.
+        </p>
+        <div class="hero-actions anim-fade-up" style="--delay:0.3s">
+          <a href="#detector" class="btn-primary"><span>🔬 Analyze a Plant</span><span class="btn-arrow">→</span></a>
+          <a href="#" class="btn-ghost nav-page-link" data-page="analytics">View Analytics</a>
+        </div>
+        <div class="hero-pills anim-fade-up" style="--delay:0.4s">
+          <span class="pill">✅ 38+ Disease Classes</span>
+          <span class="pill">⚡ &lt;2s Inference</span>
+          <span class="pill">🛡️ Offline Expert Mode</span>
+          <span class="pill">📋 Scan History</span>
+        </div>
+      </div>
+      <div class="hero-visual anim-fade-up" style="--delay:0.25s">
+        <div class="hero-card-float">
+          <div class="float-card fc-1"><span class="fc-icon">🌿</span><div><div class="fc-label">Validation Accuracy</div><div class="fc-value">96.6%</div></div></div>
+          <div class="float-card fc-2"><span class="fc-icon">⚡</span><div><div class="fc-label">Avg Response</div><div class="fc-value">1.8s</div></div></div>
+          <div class="float-card fc-3"><span class="fc-icon">🔬</span><div><div class="fc-label">Diseases</div><div class="fc-value">38+</div></div></div>
+          <div class="hero-orb"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-section" id="stats">
+      <div class="section-container">
+        <div class="stats-grid">
+          <div class="stat-card anim-fade-up" style="--delay:0s"><div class="stat-icon">🧬</div><div class="stat-number" data-target="38">0</div><div class="stat-label">Diseases Supported</div></div>
+          <div class="stat-card anim-fade-up" style="--delay:0.1s"><div class="stat-icon">🎯</div><div class="stat-number" data-target="97" data-suffix="%">0</div><div class="stat-label">AI Accuracy</div></div>
+          <div class="stat-card anim-fade-up" style="--delay:0.2s"><div class="stat-icon">⚡</div><div class="stat-number" data-target="1" data-suffix=".8s">0</div><div class="stat-label">Response Time</div></div>
+          <div class="stat-card anim-fade-up" style="--delay:0.3s"><div class="stat-icon">🌱</div><div class="stat-number" data-target="100" data-suffix="%">0</div><div class="stat-label">Offline Ready</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="detector-section" id="detector">
+      <div class="section-container">
+        <div class="section-header anim-fade-up">
+          <div class="section-tag">Core Feature</div>
+          <h2 class="section-title">AI Disease <span class="gradient-text">Detector</span></h2>
+          <p class="section-sub">Upload your plant image or paste a URL for an instant AI-powered diagnosis</p>
+        </div>
+        <div class="main-content">
+
+          <!-- Upload Card -->
+          <div class="card glass-card anim-fade-up" style="--delay:0.1s">
+            <div class="card-header-row">
+              <div class="card-icon-wrap purple">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </div>
+              <h2 class="card-title">Provide an Image</h2>
+            </div>
+            <div class="upload-section">
+              <div class="upload-area" id="upload-area">
+                <div class="upload-icon-wrap">
+                  <div class="upload-icon" id="upload-icon-anim">📤</div>
+                  <div class="upload-ring"></div>
+                </div>
+                <input type="file" id="image-uploader" accept="image/png, image/jpeg, image/jpg">
+                <label for="image-uploader" class="upload-label" data-i18n="upload_label">Click to upload or drag &amp; drop</label>
+                <p class="upload-hint" data-i18n="upload_hint">PNG, JPG, JPEG — max 10 MB</p>
+              </div>
+
+              <div class="camera-row">
+                <input type="file" id="camera-capture" accept="image/*" capture="environment" style="display:none">
+                <button class="btn-camera" id="camera-btn" data-i18n="camera_btn">📷 Take Photo</button>
+                <span class="camera-hint" data-i18n="camera_hint">Use device camera</span>
+              </div>
+
+              <div class="or-divider"><span>or</span></div>
+              <div class="url-input-wrap">
+                <span class="url-icon">🔗</span>
+                <input type="text" id="url-uploader" class="url-input" placeholder="Paste image URL here...">
+              </div>
+              <div id="image-preview" class="image-preview"></div>
+              <button class="predict-button btn-primary" id="predict-button">
+                <span class="btn-label" data-i18n="analyze_btn">🔬 Analyze Image</span>
+                <span class="btn-spinner hidden" id="btn-spinner"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Prevention Card -->
+          <div class="card glass-card anim-fade-up" id="prevention-card" style="--delay:0.2s">
+            <div class="card-header-row">
+              <div class="card-icon-wrap green">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h2 class="card-title">⭐ Proactive Plant Care</h2>
+            </div>
+            <p class="card-desc">Preventing disease is easier than treating it. Here are expert-recommended tips:</p>
+            <div class="result-item"><h3>🌬️ Promote Good Airflow</h3><p>Prune plants and give them space. Good air circulation helps leaves dry quickly and prevents fungal growth.</p></div>
+            <div class="result-item"><h3>💧 Water Wisely</h3><p>Water at the base of the plant, not on the leaves. Always water in the morning for best results.</p></div>
+            <div class="result-item"><h3>🧹 Practice Good Sanitation</h3><p>Remove and destroy any dead or diseased leaves. Clean and sterilize your pruning tools regularly.</p></div>
+          </div>
+
+          <!-- Results Card -->
+          <div class="card glass-card results hidden" id="results" style="--delay:0.1s">
+            <div class="card-header-row">
+              <div class="card-icon-wrap blue">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              </div>
+              <h2 class="card-title">🔍 Analysis Result</h2>
+              <span class="ai-badge pulse-badge">AI Result</span>
+            </div>
+            <div class="prediction-card" id="result-snapshot">
+              <div class="prediction-label">Detected Condition</div>
+              <div class="prediction-output" id="prediction-output">—</div>
+              <div class="severity-row">
+                <span class="severity-badge" id="severity-badge">Analyzing...</span>
+                <div class="confidence-wrap">
+                  <span class="confidence-label">AI Confidence</span>
+                  <div class="confidence-bar-track"><div class="confidence-bar" id="confidence-bar"></div></div>
+                  <span class="confidence-value" id="confidence-value">—</span>
+                </div>
+              </div>
+              <div class="severity-warning hidden" id="severity-warning">
+                ⚠️ <strong>HIGH RISK — Immediate treatment recommended.</strong> This disease can spread rapidly. Act now to protect your crop.
+              </div>
+            </div>
+            <div class="result-item" id="symptoms-section"><h3>🔬 Symptoms</h3><p id="symptoms-output"></p></div>
+            <div class="result-item" id="treatment-section"><h3>💊 Suggested Treatment</h3><p id="treatment-output"></p></div>
+            <div class="result-item" id="prevention-section"><h3 id="prevention-title">🛡️ Prevention</h3><p id="prevention-output"></p></div>
+            <div class="result-actions">
+              <button class="btn-pdf" id="download-pdf-btn">📄 Download AI Report</button>
+              <button class="btn-ghost btn-sm" id="save-history-manual-btn">💾 Save to History</button>
+              <button class="btn-track" id="track-plant-btn">🌱 Track This Plant</button>
+            </div>
+
+            <!-- RISK ANALYSIS CARD -->
+            <div class="risk-card hidden" id="risk-card">
+              <div class="risk-card-header">
+                <span class="risk-card-title">🦠 Disease Spread Risk</span>
+                <span class="risk-badge" id="risk-badge">—</span>
+              </div>
+              <div class="risk-score-wrap">
+                <div class="risk-score-ring">
+                  <svg viewBox="0 0 80 80" class="risk-ring-svg">
+                    <circle cx="40" cy="40" r="32" class="risk-ring-bg"/>
+                    <circle cx="40" cy="40" r="32" class="risk-ring-fg" id="risk-ring-fg"
+                            stroke-dasharray="201" stroke-dashoffset="201"/>
+                  </svg>
+                  <div class="risk-score-label" id="risk-score-label">0%</div>
+                </div>
+                <div class="risk-details">
+                  <div class="risk-reason" id="risk-reason">Analyzing conditions...</div>
+                  <div class="risk-weather-snap" id="risk-weather-snap"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="chat-section">
+      <div class="section-container">
+        <div class="card glass-card chat-container hidden" id="chat-container">
+          <div class="chat-header">
+            <div class="chat-avatar"><span>🤖</span></div>
+            <div class="chat-header-info">
+              <h2>💬 Ask Our Expert Bot</h2>
+              <div class="chat-status"><span class="status-dot"></span><span id="chat-mode-label">AI Agriculture Expert • Online</span></div>
+            </div>
+            <span class="local-mode-badge hidden" id="local-mode-badge">🌱 Local Expert Mode</span>
+          </div>
+          <div class="chat-box" id="chat-box"></div>
+          <div class="chat-input-container">
+            <input type="text" id="chat-message" placeholder="Ask about symptoms, treatment, prevention...">
+            <button class="voice-btn" id="voice-btn" title="Voice input">🎤</button>
+            <button class="chat-send-button" id="chat-send-button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         PHASE 3A — RAG AGRICULTURE EXPERT PANEL
+    ══════════════════════════════════════════════════════ -->
+    <section class="rag-section page-section" id="rag-section">
+      <div class="section-container">
+        <div class="section-header anim-fade-up">
+          <div class="section-tag">RAG Expert · Phase 3A</div>
+          <h2 class="section-title">🌾 Agriculture <span class="gradient-text-green">Knowledge Base</span></h2>
+          <p class="section-sub">Ask any farming question — answers grounded in verified ICAR documents, not guesswork.</p>
+        </div>
+
+        <div class="glass-card rag-chat-panel anim-fade-up" id="rag-chat-panel" style="--delay:.1s">
+
+          <!-- Panel Header -->
+          <div class="rag-chat-header">
+            <div class="rag-avatar">📚</div>
+            <div class="rag-header-info">
+              <h3>Agriculture Expert Assistant</h3>
+              <div class="rag-header-status">
+                <span class="status-dot"></span>
+                Powered by RAG · FAISS + Gemini · ICAR Documents
+              </div>
+            </div>
+            <span class="rag-mode-badge mode-ready" id="rag-mode-badge">🔬 Ready</span>
+          </div>
+
+          <!-- Chat Thread -->
+          <div class="rag-chat-box" id="rag-chat-box"></div>
+
+          <!-- Source Citations (hidden until first RAG answer) -->
+          <div class="rag-sources-panel hidden" id="rag-sources-panel">
+            <div class="rag-sources-title">📄 Sources from Knowledge Base</div>
+            <div class="rag-sources-list" id="rag-sources-list"></div>
+          </div>
+
+          <!-- Input -->
+          <div class="rag-input-row">
+            <input
+              type="text"
+              id="rag-question-input"
+              placeholder="Ask about crop diseases, fertilizers, irrigation, government schemes…"
+              autocomplete="off"
+            >
+            <button id="rag-voice-btn" class="voice-btn" title="Voice input">🎤</button>
+            <button id="rag-send-btn" title="Send question" aria-label="Send">➤</button>
+          </div>
+
+          <!-- Quick Question Buttons -->
+          <div class="rag-quick-btns" id="rag-quick-btns">
+            <button class="rag-quick-btn" data-q="How do I control tomato early blight?">🍅 Tomato Blight Control</button>
+            <button class="rag-quick-btn" data-q="What is the NPK fertilizer dose for tomato?">🌱 NPK for Tomato</button>
+            <button class="rag-quick-btn" data-q="How to set up drip irrigation for vegetables?">💧 Drip Irrigation</button>
+            <button class="rag-quick-btn" data-q="What are the benefits of PM-KISAN scheme?">🏛️ PM-KISAN Scheme</button>
+            <button class="rag-quick-btn" data-q="How to protect tomato crops during monsoon season?">🌧️ Monsoon Advisory</button>
+            <button class="rag-quick-btn" data-q="What pesticide should I use for fruit borer in brinjal?">🪲 Fruit Borer Control</button>
+          </div>
+
+        </div><!-- /rag-chat-panel -->
+      </div><!-- /section-container -->
+    </section><!-- /rag-section -->
+
+    <!-- WEATHER + INSIGHTS SECTION -->
+    <section class="weather-section" id="weather-section">
+      <div class="section-container">
+        <div class="weather-grid">
+          <!-- Weather Card -->
+          <div class="glass-card weather-card">
+            <div class="weather-card-header">
+              <div class="card-icon-wrap green">🌤️</div>
+              <div style="flex:1">
+                <div class="card-title">Today's Farm Weather</div>
+                <div class="weather-location" id="weather-location">Loading...</div>
+              </div>
+              <span class="weather-source-badge" id="weather-source-badge">Simulated</span>
+            </div>
+            <div class="weather-city-row">
+              <input type="text" id="weather-city-input" class="weather-city-input"
+                     placeholder="Enter city (e.g. Bhopal)" value="Bhopal">
+              <button class="weather-refresh-btn" id="weather-refresh-btn">🔍</button>
+            </div>
+            <div class="weather-metrics" id="weather-metrics">
+              <div class="weather-metric">
+                <div class="weather-metric-icon">🌡️</div>
+                <div class="weather-metric-value" id="w-temp">—</div>
+                <div class="weather-metric-label">Temperature</div>
+              </div>
+              <div class="weather-metric">
+                <div class="weather-metric-icon">💧</div>
+                <div class="weather-metric-value" id="w-humid">—</div>
+                <div class="weather-metric-label">Humidity</div>
+              </div>
+              <div class="weather-metric">
+                <div class="weather-metric-icon">🌧️</div>
+                <div class="weather-metric-value" id="w-rain">—</div>
+                <div class="weather-metric-label">Rain Chance</div>
+              </div>
+              <div class="weather-metric">
+                <div class="weather-metric-icon">🌬️</div>
+                <div class="weather-metric-value" id="w-wind">—</div>
+                <div class="weather-metric-label">Wind Speed</div>
+              </div>
+            </div>
+            <div class="weather-condition" id="w-condition">—</div>
+            <div class="weather-updated" id="weather-updated"></div>
+          </div>
+          <!-- Farming Insights Card -->
+          <div class="glass-card insights-card">
+            <div class="card-header-row">
+              <div class="card-icon-wrap purple">🌾</div>
+              <div class="card-title">Smart Farming Insights</div>
+            </div>
+            <div class="insights-list" id="insights-list">
+              <div class="insight-loading">Loading weather insights...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-section" id="features">
+      <div class="section-container">
+        <div class="section-header anim-fade-up">
+          <div class="section-tag">Platform</div>
+          <h2 class="section-title">Why Choose <span class="gradient-text">KrishiPrahari AI</span>?</h2>
+          <p class="section-sub">A complete intelligent farming assistant powered by state-of-the-art deep learning</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card anim-fade-up" style="--delay:0s"><div class="feature-icon-wrap purple">🧬</div><h3 class="feature-title">AI Detection</h3><p class="feature-desc">Deep CNN model trained on 87,000+ plant images with 96%+ validation accuracy across 38 disease classes.</p><div class="feature-tag">TensorFlow • Keras</div></div>
+          <div class="feature-card anim-fade-up" style="--delay:0.1s"><div class="feature-icon-wrap blue">📊</div><h3 class="feature-title">Disease Analytics</h3><p class="feature-desc">Interactive charts showing your scan history, disease trends, and health statistics.</p><div class="feature-tag">Chart.js</div></div>
+          <div class="feature-card anim-fade-up" style="--delay:0.2s"><div class="feature-icon-wrap green">🌿</div><h3 class="feature-title">Smart Recommendations</h3><p class="feature-desc">Powered by Gemini AI, get personalized prevention and care advice tailored to your crop.</p><div class="feature-tag">Gemini AI</div></div>
+          <div class="feature-card anim-fade-up" style="--delay:0.3s"><div class="feature-icon-wrap orange">🛡️</div><h3 class="feature-title">Offline Expert Mode</h3><p class="feature-desc">Local disease knowledge base ensures expert guidance even without internet connectivity.</p><div class="feature-tag">100% Offline Ready</div></div>
+          <div class="feature-card anim-fade-up" style="--delay:0.4s"><div class="feature-icon-wrap purple">📋</div><h3 class="feature-title">Scan History</h3><p class="feature-desc">Every scan saved locally. Review past diagnoses and track disease patterns over time.</p><div class="feature-tag">localStorage</div></div>
+          <div class="feature-card anim-fade-up" style="--delay:0.5s"><div class="feature-icon-wrap blue">📄</div><h3 class="feature-title">PDF Reports</h3><p class="feature-desc">Download professional AI-generated disease reports with full treatment plans.</p><div class="feature-tag">jsPDF • html2canvas</div></div>
+          <div class="feature-card anim-fade-up" style="--delay:0.6s"><div class="feature-icon-wrap green">🎤</div><h3 class="feature-title">Voice Input</h3><p class="feature-desc">Ask the AI expert hands-free using your voice. Powered by Web Speech API.</p><div class="feature-tag">Web Speech API</div></div>
+          <div class="feature-card anim-fade-up" style="--delay:0.7s"><div class="feature-icon-wrap orange">📷</div><h3 class="feature-title">Camera Capture</h3><p class="feature-desc">Capture plant photos directly from your mobile device camera for instant diagnosis.</p><div class="feature-tag">Mobile Optimized</div></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="section-container">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <div class="footer-logo">🌿 KrishiPrahari <span class="logo-accent">AI</span></div>
+            <p class="footer-tagline">Next-generation crop intelligence for every farmer.</p>
+            <div class="footer-tech-badges">
+              <span class="tech-badge">Python</span><span class="tech-badge">TensorFlow</span><span class="tech-badge">Flask</span><span class="tech-badge">Gemini AI</span>
+            </div>
+          </div>
+          <div class="footer-right">
+            <div class="footer-made">Made with <span class="heart">❤️</span> and <span class="ai-text">AI</span></div>
+            <p class="footer-copy">© 2026 KrishiPrahari AI. Plant Disease Detection System.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /page-home -->
+
+  <!-- ══════════════ HISTORY PAGE ══════════════ -->
+  <div id="page-history" class="page-section hidden">
+    <section class="inner-page-section">
+      <div class="section-container">
+        <div class="inner-page-header">
+          <div class="section-tag">Scan Records</div>
+          <h2 class="section-title">📋 Scan <span class="gradient-text">History</span></h2>
+          <p class="section-sub">All your previous AI disease analyses — saved locally on your device</p>
+        </div>
+        <div class="history-toolbar" id="history-toolbar">
+          <div class="history-meta" id="history-meta"></div>
+          <div class="history-actions">
+            <button class="btn-ghost btn-sm" id="clear-all-btn">🗑️ Clear All</button>
+          </div>
+        </div>
+        <div class="history-grid" id="history-grid"></div>
+        <div class="empty-state hidden" id="history-empty">
+          <div class="empty-icon">🌱</div>
+          <h3>No Scans Yet</h3>
+          <p>Your scan history will appear here after you analyze your first plant image.</p>
+          <button class="btn-primary" id="go-scan-btn">🔬 Start Scanning</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══════════════ ANALYTICS PAGE ══════════════ -->
+  <div id="page-analytics" class="page-section hidden">
+    <section class="inner-page-section">
+      <div class="section-container">
+        <div class="inner-page-header">
+          <div class="section-tag">Insights</div>
+          <h2 class="section-title">📊 Analytics <span class="gradient-text">Dashboard</span></h2>
+          <p class="section-sub">Visualize your crop health trends and disease statistics</p>
+        </div>
+        <!-- KPI Cards (Phase 2C: 6 KPIs) -->
+        <div class="analytics-kpi-grid" id="analytics-kpi-grid">
+          <div class="kpi-card"><div class="kpi-icon">🔬</div><div class="kpi-value" id="kpi-total">0</div><div class="kpi-label" data-i18n="kpi_total_scans">Total Scans</div></div>
+          <div class="kpi-card"><div class="kpi-icon">✅</div><div class="kpi-value" id="kpi-healthy">0</div><div class="kpi-label" data-i18n="kpi_healthy">Healthy Plants</div></div>
+          <div class="kpi-card"><div class="kpi-icon">🦠</div><div class="kpi-value" id="kpi-diseased">0</div><div class="kpi-label" data-i18n="kpi_diseased">Diseased Plants</div></div>
+          <div class="kpi-card"><div class="kpi-icon">📅</div><div class="kpi-value kpi-date" id="kpi-last-scan">—</div><div class="kpi-label" data-i18n="kpi_last_scan">Last Scan</div></div>
+          <div class="kpi-card kpi-card-accent-red"><div class="kpi-icon">🔴</div><div class="kpi-value" id="kpi-highest-risk" style="font-size:0.8rem">—</div><div class="kpi-label" data-i18n="kpi_highest_risk">Highest Risk Scan</div></div>
+          <div class="kpi-card kpi-card-accent-blue"><div class="kpi-icon">🎯</div><div class="kpi-value" id="kpi-avg-conf">—</div><div class="kpi-label" data-i18n="kpi_avg_confidence">Avg Confidence</div></div>
+        </div>
+        <!-- Charts (Phase 2C: 5 charts) -->
+        <div class="charts-grid">
+          <div class="chart-card glass-card">
+            <h3 class="chart-title" data-i18n="chart_health_ratio">🍕 Health Ratio</h3>
+            <div class="chart-wrap"><canvas id="chart-donut"></canvas></div>
+          </div>
+          <div class="chart-card glass-card">
+            <h3 class="chart-title" data-i18n="chart_disease_dist">📊 Disease Distribution</h3>
+            <div class="chart-wrap"><canvas id="chart-bar"></canvas></div>
+          </div>
+          <div class="chart-card glass-card">
+            <h3 class="chart-title" data-i18n="chart_risk_dist">⚠️ Risk Distribution</h3>
+            <div class="chart-wrap"><canvas id="chart-risk"></canvas></div>
+          </div>
+          <div class="chart-card glass-card">
+            <h3 class="chart-title" data-i18n="chart_scan_trend">📈 30-Day Scan Trend</h3>
+            <div class="chart-wrap"><canvas id="chart-line"></canvas></div>
+          </div>
+          <div class="chart-card glass-card chart-card-wide">
+            <h3 class="chart-title" data-i18n="chart_monthly">📅 Monthly Progress</h3>
+            <div class="chart-wrap"><canvas id="chart-monthly"></canvas></div>
+          </div>
+        </div>
+        <!-- Recent Activity Timeline -->
+        <div class="activity-section glass-card" id="activity-section" style="margin-top:24px;padding:28px;">
+          <h3 class="chart-title" data-i18n="recent_activity_title">🕐 Recent Activity</h3>
+          <div class="activity-list" id="activity-list"><div class="activity-empty">No recent scans to show.</div></div>
+        </div>
+        <div class="empty-state hidden" id="analytics-empty">
+          <div class="empty-icon">📊</div>
+          <h3>No Data Yet</h3>
+          <p>Scan your first plant image to see analytics and insights.</p>
+          <button class="btn-primary" id="go-scan-analytics-btn">🔬 Start Scanning</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══════════════ FEEDBACK PAGE ══════════════ -->
+  <div id="page-feedback" class="page-section hidden">
+    <section class="inner-page-section">
+      <div class="section-container">
+        <div class="inner-page-header">
+          <div class="section-tag">Community</div>
+          <h2 class="section-title">⭐ User <span class="gradient-text">Feedback</span></h2>
+          <p class="section-sub">Share your experience and help us improve KrishiPrahari AI</p>
+        </div>
+        <div class="feedback-layout">
+          <!-- Submit Form -->
+          <div class="glass-card feedback-form-card">
+            <h3 class="feedback-form-title">Rate Your Experience</h3>
+            <div class="star-rating" id="star-rating">
+              <span class="star" data-val="1">★</span>
+              <span class="star" data-val="2">★</span>
+              <span class="star" data-val="3">★</span>
+              <span class="star" data-val="4">★</span>
+              <span class="star" data-val="5">★</span>
+            </div>
+            <p class="star-label" id="star-label">Click to rate</p>
+            <textarea id="feedback-text" class="feedback-textarea" data-i18n-placeholder="feedback_textarea_placeholder" placeholder="Share your thoughts (min 10 characters, max 1000)..." rows="4" maxlength="1000"></textarea>
+            <div class="feedback-char-row"><span class="feedback-char-count" id="feedback-char-count">0 / 1000</span></div>
+            <button class="btn-primary feedback-submit-btn" id="feedback-submit-btn" data-i18n="feedback_submit_btn">Submit Feedback</button>
+          </div>
+          <!-- Insights -->
+          <div class="feedback-insights">
+            <div class="glass-card feedback-stats-card">
+              <h3 class="feedback-form-title" data-i18n="feedback_stats_title">Feedback Insights</h3>
+              <div class="insight-row"><div class="insight-big" id="avg-rating">—</div><div class="insight-label" data-i18n="feedback_avg_rating">Average Rating</div></div>
+              <div class="insight-row"><div class="insight-big" id="total-feedback">0</div><div class="insight-label" data-i18n="feedback_total">Total Responses</div></div>
+            </div>
+            <div class="glass-card feedback-stats-card" style="margin-top:16px">
+              <h3 class="feedback-form-title" data-i18n="feedback_my_feedback">My Feedback</h3>
+              <div class="feedback-list" id="feedback-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-feedback -->
+
+  <!-- ══════════════ PROFILE PAGE ══════════════ -->
+  <div id="page-profile" class="page-section hidden">
+    <section class="inner-page-section">
+      <div class="section-container">
+        <div class="inner-page-header">
+          <div class="section-tag">Account</div>
+          <h2 class="section-title">👤 My <span class="gradient-text">Profile</span></h2>
+          <p class="section-sub">Manage your KrishiPrahari AI account and view your activity</p>
+        </div>
+        <div class="profile-layout">
+          <!-- Profile Card -->
+          <div class="glass-card profile-card">
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" id="profile-avatar">👤</div>
+              <div class="profile-avatar-ring"></div>
+            </div>
+            <div class="profile-name" id="profile-name">—</div>
+            <div class="profile-email" id="profile-email">—</div>
+            <div class="profile-badge" id="profile-role-badge">User</div>
+          </div>
+          <!-- Stats & Edit -->
+          <div class="profile-right">
+            <div class="glass-card profile-stats-card">
+              <h3 class="profile-section-title">📊 Account Overview</h3>
+              <div class="profile-stats-grid">
+                <div class="profile-stat">
+                  <div class="profile-stat-icon">🔬</div>
+                  <div class="profile-stat-value" id="profile-total-scans">0</div>
+                  <div class="profile-stat-label">Total Scans</div>
+                </div>
+                <div class="profile-stat">
+                  <div class="profile-stat-icon">📅</div>
+                  <div class="profile-stat-value profile-stat-date" id="profile-join-date">—</div>
+                  <div class="profile-stat-label">Member Since</div>
+                </div>
+                <div class="profile-stat">
+                  <div class="profile-stat-icon">🕐</div>
+                  <div class="profile-stat-value profile-stat-date" id="profile-last-login">—</div>
+                  <div class="profile-stat-label">Last Login</div>
+                </div>
+                <div class="profile-stat">
+                  <div class="profile-stat-icon">🏷️</div>
+                  <div class="profile-stat-value" id="profile-account-type">Free</div>
+                  <div class="profile-stat-label">Account Type</div>
+                </div>
+              </div>
+            </div>
+            <div class="glass-card profile-edit-card">
+              <h3 class="profile-section-title">✏️ Edit Profile</h3>
+              <form id="form-profile-update">
+                <div class="auth-field">
+                  <label class="auth-label">Display Name</label>
+                  <input type="text" id="profile-edit-name" class="auth-input" placeholder="Your full name">
+                </div>
+                <div class="auth-error hidden" id="profile-edit-error"></div>
+                <button type="submit" class="auth-btn" id="btn-profile-save">💾 Save Changes</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-profile -->
+
+  <!-- ══════════════ LOGIN MODAL ══════════════ -->
+  <div class="auth-modal" id="modal-login" role="dialog" aria-modal="true" aria-label="Login">
+    <div class="auth-modal-card">
+      <button class="auth-modal-close" aria-label="Close">✕</button>
+      <div class="auth-modal-logo">🌿 KrishiPrahari <span class="logo-accent">AI</span></div>
+      <h2 class="auth-modal-title">Welcome Back</h2>
+      <p class="auth-modal-sub">Sign in to access your personal crop intelligence</p>
+      <form id="form-login" autocomplete="on">
+        <div class="auth-field">
+          <label class="auth-label" for="login-email">Email Address</label>
+          <input type="email" id="login-email" class="auth-input" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label" for="login-password">Password</label>
+          <div class="auth-input-wrap">
+            <input type="password" id="login-password" class="auth-input" placeholder="Your password" required autocomplete="current-password">
+            <button type="button" class="toggle-password" data-target="login-password" aria-label="Toggle password">👁️</button>
+          </div>
+        </div>
+        <div class="auth-error hidden" id="login-error"></div>
+        <button type="submit" class="auth-btn" id="btn-login-submit">Sign In</button>
+      </form>
+      <p class="auth-modal-switch">Don't have an account? <a href="#" id="link-go-register">Create one →</a></p>
+    </div>
+  </div>
+
+  <!-- ══════════════ REGISTER MODAL ══════════════ -->
+  <div class="auth-modal" id="modal-register" role="dialog" aria-modal="true" aria-label="Register">
+    <div class="auth-modal-card">
+      <button class="auth-modal-close" aria-label="Close">✕</button>
+      <div class="auth-modal-logo">🌿 KrishiPrahari <span class="logo-accent">AI</span></div>
+      <h2 class="auth-modal-title">Create Account</h2>
+      <p class="auth-modal-sub">Join KrishiPrahari AI and protect your crops with AI</p>
+      <form id="form-register" autocomplete="on">
+        <div class="auth-field">
+          <label class="auth-label" for="reg-name">Full Name</label>
+          <input type="text" id="reg-name" class="auth-input" placeholder="Your full name" required autocomplete="name">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label" for="reg-email">Email Address</label>
+          <input type="email" id="reg-email" class="auth-input" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label" for="reg-password">Password</label>
+          <div class="auth-input-wrap">
+            <input type="password" id="reg-password" class="auth-input" placeholder="Min 8 characters" required autocomplete="new-password">
+            <button type="button" class="toggle-password" data-target="reg-password" aria-label="Toggle password">👁️</button>
+          </div>
+        </div>
+        <div class="auth-field">
+          <label class="auth-label" for="reg-confirm">Confirm Password</label>
+          <div class="auth-input-wrap">
+            <input type="password" id="reg-confirm" class="auth-input" placeholder="Repeat your password" required autocomplete="new-password">
+            <button type="button" class="toggle-password" data-target="reg-confirm" aria-label="Toggle password">👁️</button>
+          </div>
+        </div>
+        <div class="auth-error hidden" id="register-error"></div>
+        <button type="submit" class="auth-btn" id="btn-register-submit">Create Account</button>
+      </form>
+      <p class="auth-modal-switch">Already have an account? <a href="#" id="link-go-login">Sign in →</a></p>
+    </div>
+  </div>
+
+  <!-- ══════════════ ADMIN DASHBOARD PAGE ══════════════ -->
+  <div id="page-admin" class="page-section hidden">
+    <section class="inner-page-section">
+      <div class="section-container">
+
+        <!-- Access Denied (shown if not admin) -->
+        <div id="admin-access-denied" class="admin-access-denied hidden">
+          <div class="admin-access-denied-icon">🔒</div>
+          <h2>Access Denied</h2>
+          <p>You need admin privileges to access this dashboard.</p>
+          <button class="btn-primary" onclick="Router.navigate('home')" style="margin:0 auto;display:inline-flex">← Back to Home</button>
+        </div>
+
+        <!-- Admin Content (shown only to admin role) -->
+        <div id="admin-content" class="hidden">
+
+          <!-- Hero Banner -->
+          <div class="admin-hero-banner">
+            <div class="admin-hero-icon">⚙️</div>
+            <div class="admin-hero-content">
+              <h1>Admin Intelligence Dashboard <span class="admin-hero-badge">🔴 LIVE</span></h1>
+              <p>Platform analytics, agriculture intelligence, RAG metrics, feedback insights, language trends, and full user management — all in one place.</p>
+            </div>
+          </div>
+
+          <!-- Tab Navigation -->
+          <div class="admin-tabs" id="admin-tabs">
+            <button class="admin-tab-btn active" data-tab="overview" id="admin-tab-overview">📊 Overview</button>
+            <button class="admin-tab-btn" data-tab="agriculture" id="admin-tab-agriculture">🌾 Agriculture</button>
+            <button class="admin-tab-btn" data-tab="rag" id="admin-tab-rag">🤖 RAG Analytics</button>
+            <button class="admin-tab-btn" data-tab="feedback" id="admin-tab-feedback">⭐ Feedback</button>
+            <button class="admin-tab-btn" data-tab="languages" id="admin-tab-languages">🌐 Languages</button>
+            <button class="admin-tab-btn" data-tab="users" id="admin-tab-users">👥 Users</button>
+          </div>
+
+          <!-- ═══════════ TAB: OVERVIEW ═══════════ -->
+          <div class="admin-tab-content active" id="admin-panel-overview">
+            <div class="admin-kpi-grid" id="admin-overview-kpis">
+              <div class="admin-kpi-card"><div class="admin-kpi-icon">👥</div><div class="admin-kpi-value" id="adm-total-users">—</div><div class="admin-kpi-label">Total Users</div></div>
+              <div class="admin-kpi-card"><div class="admin-kpi-icon">🟢</div><div class="admin-kpi-value" id="adm-active-users">—</div><div class="admin-kpi-label">Active Users (30d)</div></div>
+              <div class="admin-kpi-card"><div class="admin-kpi-icon">🔬</div><div class="admin-kpi-value" id="adm-total-scans">—</div><div class="admin-kpi-label">Total Scans</div></div>
+              <div class="admin-kpi-card"><div class="admin-kpi-icon">⭐</div><div class="admin-kpi-value" id="adm-total-feedback">—</div><div class="admin-kpi-label">Total Feedback</div></div>
+              <div class="admin-kpi-card"><div class="admin-kpi-icon">🤖</div><div class="admin-kpi-value" id="adm-total-rag">—</div><div class="admin-kpi-label">Total RAG Queries</div></div>
+              <div class="admin-kpi-card"><div class="admin-kpi-icon">📈</div><div class="admin-kpi-value" id="adm-avg-scans">—</div><div class="admin-kpi-label">Avg Scans / User</div></div>
+            </div>
+            <div class="admin-charts-grid">
+              <div class="glass-card admin-chart-card admin-chart-full">
+                <div class="admin-chart-title">📅 Platform Growth (30-Day Scan Trend)</div>
+                <div class="admin-chart-wrap tall"><canvas id="adm-chart-growth"></canvas></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════ TAB: AGRICULTURE ═══════════ -->
+          <div class="admin-tab-content" id="admin-panel-agriculture">
+            <div class="admin-info-grid">
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-high-risk">—</div><div class="admin-info-label">🔴 High Risk Cases</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-avg-risk">—</div><div class="admin-info-label">📊 Avg Risk Score</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-sev-high">—</div><div class="admin-info-label">⚠️ HIGH Severity</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-sev-medium">—</div><div class="admin-info-label">🟡 MEDIUM Severity</div></div>
+            </div>
+            <div class="admin-charts-grid">
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">🦠 Top Diseases (Frequency)</div>
+                <div class="admin-chart-wrap"><canvas id="adm-chart-diseases"></canvas></div>
+              </div>
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">🌾 Most Affected Crops</div>
+                <div class="admin-chart-wrap"><canvas id="adm-chart-crops"></canvas></div>
+              </div>
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">⚠️ Severity Distribution</div>
+                <div class="admin-chart-wrap"><canvas id="adm-chart-severity"></canvas></div>
+              </div>
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">🌦️ Weather Impact (High-Risk Avg)</div>
+                <div class="admin-chart-wrap"><canvas id="adm-chart-weather"></canvas></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════ TAB: RAG ANALYTICS ═══════════ -->
+          <div class="admin-tab-content" id="admin-panel-rag">
+            <div class="admin-info-grid">
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-rag-total">—</div><div class="admin-info-label">🤖 Total Queries</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-rag-success">—</div><div class="admin-info-label">✅ RAG Success Rate</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-rag-fallback">—</div><div class="admin-info-label">⚡ Fallback Rate</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-rag-sources">—</div><div class="admin-info-label">📄 Unique Sources</div></div>
+            </div>
+            <div class="admin-charts-grid">
+              <div class="glass-card admin-chart-card admin-chart-full">
+                <div class="admin-chart-title">💬 Chat Volume Trend (30 Days)</div>
+                <div class="admin-chart-wrap"><canvas id="adm-chart-rag-trend"></canvas></div>
+              </div>
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">📚 Knowledge Category Distribution</div>
+                <div class="admin-chart-wrap"><canvas id="adm-chart-rag-categories"></canvas></div>
+              </div>
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">🔥 RAG vs Fallback</div>
+                <div class="admin-chart-wrap"><canvas id="adm-chart-rag-mode"></canvas></div>
+              </div>
+            </div>
+            <div class="glass-card admin-table-card" style="margin-top:0">
+              <div class="admin-chart-title">❓ Top 10 Questions</div>
+              <table class="admin-table" id="adm-table-questions">
+                <thead><tr><th>#</th><th>Question</th><th>Count</th></tr></thead>
+                <tbody id="adm-questions-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ═══════════ TAB: FEEDBACK ═══════════ -->
+          <div class="admin-tab-content" id="admin-panel-feedback">
+            <div class="admin-info-grid">
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-fb-avg">—</div><div class="admin-info-label">⭐ Avg Rating</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-fb-total">—</div><div class="admin-info-label">📝 Total Responses</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-fb-5star">—</div><div class="admin-info-label">🌟 5-Star Reviews</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-fb-low">—</div><div class="admin-info-label">⚠️ Low Ratings (1-2)</div></div>
+            </div>
+            <div class="admin-two-col">
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">⭐ Rating Distribution</div>
+                <div id="adm-rating-dist"></div>
+              </div>
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">📈 Feedback Trend (30 Days)</div>
+                <div class="admin-chart-wrap"><canvas id="adm-chart-fb-trend"></canvas></div>
+              </div>
+            </div>
+            <div class="admin-two-col" style="margin-top:0">
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">🏷️ Common Keywords</div>
+                <div class="admin-keyword-cloud" id="adm-keyword-cloud"></div>
+              </div>
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">💬 Latest Feedback</div>
+                <div class="admin-feedback-list" id="adm-feedback-list"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════ TAB: LANGUAGES ═══════════ -->
+          <div class="admin-tab-content" id="admin-panel-languages">
+            <div class="admin-info-grid">
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-lang-en-count">—</div><div class="admin-info-label">🇬🇧 English Queries</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-lang-hi-count">—</div><div class="admin-info-label">🇮🇳 Hindi Queries</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-lang-top">—</div><div class="admin-info-label">🏆 Most Used Language</div></div>
+              <div class="admin-info-card"><div class="admin-info-value" id="adm-lang-total">—</div><div class="admin-info-label">💬 Total Conversations</div></div>
+            </div>
+            <div class="admin-two-col">
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">🌍 Language Usage</div>
+                <div style="padding:16px 0">
+                  <div class="lang-usage-row">
+                    <span class="lang-usage-label">🇬🇧 English</span>
+                    <div class="lang-usage-bar-track"><div class="lang-usage-bar en" id="adm-lang-en-bar" style="width:0%"></div></div>
+                    <span class="lang-usage-pct" id="adm-lang-en-pct">—</span>
+                  </div>
+                  <div class="lang-usage-row">
+                    <span class="lang-usage-label">🇮🇳 Hindi</span>
+                    <div class="lang-usage-bar-track"><div class="lang-usage-bar hi" id="adm-lang-hi-bar" style="width:0%"></div></div>
+                    <span class="lang-usage-pct" id="adm-lang-hi-pct">—</span>
+                  </div>
+                </div>
+                <div class="admin-chart-title" style="margin-top:8px">🥧 Language Share</div>
+                <div class="admin-chart-wrap"><canvas id="adm-chart-lang-pie"></canvas></div>
+              </div>
+              <div class="glass-card admin-chart-card">
+                <div class="admin-chart-title">📈 Language Trend (30 Days)</div>
+                <div class="admin-chart-wrap tall"><canvas id="adm-chart-lang-trend"></canvas></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════ TAB: USERS (Phase 4C) ═══════════ -->
+          <div class="admin-tab-content" id="admin-panel-users">
+
+            <!-- Users KPI Strip -->
+            <div class="admin-users-kpi-strip" id="admin-users-kpi-strip">
+              <div class="admin-users-kpi">
+                <div class="admin-users-kpi-icon">👥</div>
+                <div class="admin-users-kpi-value" id="adm-users-total">—</div>
+                <div class="admin-users-kpi-label">Total Users</div>
+              </div>
+              <div class="admin-users-kpi">
+                <div class="admin-users-kpi-icon">🟢</div>
+                <div class="admin-users-kpi-value" id="adm-users-active">—</div>
+                <div class="admin-users-kpi-label">Active (7d)</div>
+              </div>
+              <div class="admin-users-kpi">
+                <div class="admin-users-kpi-icon">🔴</div>
+                <div class="admin-users-kpi-value" id="adm-users-inactive">—</div>
+                <div class="admin-users-kpi-label">Inactive</div>
+              </div>
+              <div class="admin-users-kpi">
+                <div class="admin-users-kpi-icon">⚙️</div>
+                <div class="admin-users-kpi-value" id="adm-users-admins">—</div>
+                <div class="admin-users-kpi-label">Admins</div>
+              </div>
+              <div class="admin-users-kpi">
+                <div class="admin-users-kpi-icon">🔬</div>
+                <div class="admin-users-kpi-value" id="adm-users-total-scans">—</div>
+                <div class="admin-users-kpi-label">Total Scans</div>
+              </div>
+              <div class="admin-users-kpi">
+                <div class="admin-users-kpi-icon">🤖</div>
+                <div class="admin-users-kpi-value" id="adm-users-total-rag">—</div>
+                <div class="admin-users-kpi-label">Total RAG Queries</div>
+              </div>
+            </div>
+
+            <!-- Search + Sort Toolbar -->
+            <div class="admin-users-toolbar glass-card">
+              <div class="admin-users-search-wrap">
+                <span class="admin-users-search-icon">🔍</span>
+                <input
+                  type="text"
+                  id="adm-users-search"
+                  class="admin-users-search"
+                  placeholder="Search by name or email…"
+                  autocomplete="off"
+                >
+              </div>
+              <div class="admin-users-sort-wrap">
+                <label class="admin-users-sort-label">Sort by</label>
+                <select id="adm-users-sort" class="admin-users-sort">
+                  <option value="newest">Newest Users</option>
+                  <option value="scans">Most Scans</option>
+                  <option value="rag">Most RAG Usage</option>
+                  <option value="plants">Most Plants Tracked</option>
+                </select>
+              </div>
+              <div class="admin-users-count" id="adm-users-count">Loading…</div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="glass-card admin-table-card" id="admin-users-table-card">
+              <div class="admin-chart-title">👥 Registered Users</div>
+              <div class="admin-users-table-wrap">
+                <table class="admin-table admin-users-table" id="adm-users-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Scans</th>
+                      <th>Plants</th>
+                      <th>RAG</th>
+                      <th>Joined</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adm-users-tbody">
+                    <tr><td colspan="9" class="admin-users-loading">⏳ Loading users…</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="admin-users-empty hidden" id="adm-users-empty">
+                <div class="admin-users-empty-icon">👥</div>
+                <p>No users found matching your search.</p>
+              </div>
+            </div>
+
+          </div><!-- /admin-panel-users -->
+
+        </div><!-- /admin-content -->
+      </div><!-- /section-container -->
+    </section>
+  </div><!-- /page-admin -->
+
+  <!-- ══════════ USER DETAIL MODAL (Phase 4C) ══════════ -->
+  <div class="user-detail-modal" id="user-detail-modal" role="dialog" aria-modal="true" aria-label="User Profile">
+    <div class="user-detail-modal-card">
+      <button class="user-detail-close" id="user-detail-close" aria-label="Close">✕</button>
+
+      <!-- Header -->
+      <div class="user-detail-header">
+        <div class="user-detail-avatar" id="udm-avatar">👤</div>
+        <div class="user-detail-info">
+          <div class="user-detail-name" id="udm-name">—</div>
+          <div class="user-detail-email" id="udm-email">—</div>
+          <span class="user-detail-role-badge" id="udm-role-badge">user</span>
+        </div>
+        <span class="user-detail-status-pill" id="udm-status-pill">—</span>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="user-detail-stats-grid">
+        <div class="user-detail-stat">
+          <div class="user-detail-stat-icon">🔬</div>
+          <div class="user-detail-stat-value" id="udm-scans">0</div>
+          <div class="user-detail-stat-label">Total Scans</div>
+        </div>
+        <div class="user-detail-stat">
+          <div class="user-detail-stat-icon">🌿</div>
+          <div class="user-detail-stat-value" id="udm-plants">0</div>
+          <div class="user-detail-stat-label">Tracked Plants</div>
+        </div>
+        <div class="user-detail-stat">
+          <div class="user-detail-stat-icon">⭐</div>
+          <div class="user-detail-stat-value" id="udm-feedback">0</div>
+          <div class="user-detail-stat-label">Feedback Submitted</div>
+        </div>
+        <div class="user-detail-stat">
+          <div class="user-detail-stat-icon">🤖</div>
+          <div class="user-detail-stat-value" id="udm-rag">0</div>
+          <div class="user-detail-stat-label">RAG Queries</div>
+        </div>
+      </div>
+
+      <!-- Meta Row -->
+      <div class="user-detail-meta-row">
+        <div class="user-detail-meta-item">
+          <span class="user-detail-meta-label">📅 Join Date</span>
+          <span class="user-detail-meta-value" id="udm-joined">—</span>
+        </div>
+        <div class="user-detail-meta-item">
+          <span class="user-detail-meta-label">🕐 Last Activity</span>
+          <span class="user-detail-meta-value" id="udm-last-activity">—</span>
+        </div>
+      </div>
+
+      <!-- Activity Summary -->
+      <div class="user-detail-activity-section">
+        <div class="user-detail-section-title">📊 Activity Summary</div>
+        <div class="user-detail-activity-bars" id="udm-activity-bars"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ PLANTS PAGE (Phase 4B) ══════════════ -->
+  <div id="page-plants" class="page-section hidden">
+    <section class="inner-page-section">
+      <div class="section-container">
+
+        <!-- Page Header -->
+        <div class="inner-page-header">
+          <div class="section-tag">Phase 4B · Progress Tracking</div>
+          <h2 class="section-title">🌿 Plant <span class="gradient-text-green">Monitoring</span></h2>
+          <p class="section-sub">Track the same plant over time and visualize disease recovery or progression</p>
+        </div>
+
+        <!-- Login gate -->
+        <div id="plants-login-gate" class="plants-login-gate hidden">
+          <div class="plants-gate-icon">🔒</div>
+          <h3>Login Required</h3>
+          <p>Please login to track and monitor your plants over time.</p>
+          <button class="btn-primary" id="plants-gate-login-btn" style="margin:0 auto">🔑 Login to KrishiPrahari AI</button>
+        </div>
+
+        <!-- Plants Content -->
+        <div id="plants-content">
+
+          <!-- Analytics KPI Row -->
+          <div class="plants-kpi-grid" id="plants-kpi-grid">
+            <div class="plant-kpi-card">
+              <div class="plant-kpi-icon">🌿</div>
+              <div class="plant-kpi-value" id="pkpi-total">0</div>
+              <div class="plant-kpi-label">Total Tracked</div>
+            </div>
+            <div class="plant-kpi-card">
+              <div class="plant-kpi-icon">📈</div>
+              <div class="plant-kpi-value" id="pkpi-recovery">—</div>
+              <div class="plant-kpi-label">Avg Recovery Rate</div>
+            </div>
+            <div class="plant-kpi-card plant-kpi-red">
+              <div class="plant-kpi-icon">🔴</div>
+              <div class="plant-kpi-value" id="pkpi-high-risk">0</div>
+              <div class="plant-kpi-label">High Risk Plants</div>
+            </div>
+            <div class="plant-kpi-card plant-kpi-green">
+              <div class="plant-kpi-icon">🏆</div>
+              <div class="plant-kpi-value" id="pkpi-most-improved" style="font-size:0.85rem">—</div>
+              <div class="plant-kpi-label">Most Improved</div>
+            </div>
+          </div>
+
+          <!-- Toolbar -->
+          <div class="plants-toolbar">
+            <span class="plants-count" id="plants-count">Loading...</span>
+            <button class="btn-add-plant" id="btn-add-plant">➕ Add New Plant</button>
+          </div>
+
+          <!-- Plants Grid -->
+          <div class="plants-grid" id="plants-grid"></div>
+
+          <!-- Empty State -->
+          <div class="empty-state hidden" id="plants-empty">
+            <div class="empty-icon">🌱</div>
+            <h3>No Plants Tracked Yet</h3>
+            <p>Start tracking your first plant after an AI scan to monitor its recovery over time.</p>
+            <button class="btn-primary" id="plants-go-scan-btn">🔬 Scan a Plant First</button>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════════
+               PLANT DETAIL PANEL (shown when a card is selected)
+          ═══════════════════════════════════════════════════════ -->
+          <div class="plant-detail-panel hidden" id="plant-detail-panel">
+
+            <!-- Detail Header -->
+            <div class="plant-detail-header">
+              <div class="plant-detail-icon">🌿</div>
+              <div class="plant-detail-info">
+                <h3 id="detail-plant-name">Plant Name</h3>
+                <div class="plant-detail-meta">
+                  <span id="detail-total-scans">0 scans</span>
+                  <span class="plant-detail-sep">•</span>
+                  <span id="detail-latest-disease">—</span>
+                  <span class="plant-detail-sep">•</span>
+                  <span id="detail-last-scan">—</span>
+                </div>
+              </div>
+              <button class="plant-detail-close" id="plant-detail-close" title="Close">✕</button>
+            </div>
+
+            <!-- Analytics Strip -->
+            <div class="plant-analytics-strip" id="plant-analytics-strip">
+              <div class="plant-analytics-item">
+                <div class="plant-analytics-value" id="det-avg-conf">—</div>
+                <div class="plant-analytics-label">Avg Confidence</div>
+              </div>
+              <div class="plant-analytics-item">
+                <div class="plant-analytics-value" id="det-avg-risk">—</div>
+                <div class="plant-analytics-label">Avg Risk Score</div>
+              </div>
+              <div class="plant-analytics-item">
+                <div class="plant-analytics-value plant-analytics-green" id="det-recovery">—</div>
+                <div class="plant-analytics-label">Recovery Rate</div>
+              </div>
+              <div class="plant-analytics-item">
+                <div class="plant-analytics-value plant-analytics-red" id="det-high-risk">—</div>
+                <div class="plant-analytics-label">High Risk Scans</div>
+              </div>
+            </div>
+
+            <!-- 4 Chart.js Charts -->
+            <div class="tracking-chart-grid">
+              <div class="tracking-chart-card glass-card">
+                <div class="tracking-chart-title">📊 Disease Confidence Trend</div>
+                <div class="tracking-chart-wrap"><canvas id="chart-confidence-trend"></canvas></div>
+              </div>
+              <div class="tracking-chart-card glass-card">
+                <div class="tracking-chart-title">⚠️ Risk Score Trend</div>
+                <div class="tracking-chart-wrap"><canvas id="chart-risk-trend"></canvas></div>
+              </div>
+              <div class="tracking-chart-card glass-card">
+                <div class="tracking-chart-title">📈 Recovery Trend</div>
+                <div class="tracking-chart-wrap"><canvas id="chart-recovery-trend"></canvas></div>
+              </div>
+              <div class="tracking-chart-card glass-card">
+                <div class="tracking-chart-title">💚 Health Score Trend</div>
+                <div class="tracking-chart-wrap"><canvas id="chart-health-trend"></canvas></div>
+              </div>
+            </div>
+
+            <!-- Scan Timeline -->
+            <div class="scan-timeline-section glass-card">
+              <div class="scan-timeline-title">🕐 Scan History Timeline</div>
+              <div class="scan-timeline" id="scan-timeline"></div>
+            </div>
+
+          </div><!-- /plant-detail-panel -->
+
+        </div><!-- /plants-content -->
+
+      </div><!-- /section-container -->
+    </section>
+  </div><!-- /page-plants -->
+
+  <!-- ══════════ TRACK PLANT MODAL ══════════ -->
+  <div class="track-modal" id="track-modal" role="dialog" aria-modal="true" aria-label="Track Plant">
+    <div class="track-modal-card">
+      <button class="track-modal-close" id="track-modal-close" aria-label="Close">✕</button>
+      <div class="track-modal-logo">🌿</div>
+      <h2 class="track-modal-title">Track This Plant</h2>
+      <p class="track-modal-sub">Choose an existing tracked plant to log this scan, or create a new one.</p>
+
+      <!-- Existing Plants Dropdown -->
+      <div class="track-section" id="track-existing-section">
+        <label class="track-label">Select Existing Plant</label>
+        <select id="track-plant-select" class="track-select">
+          <option value="">— Select a plant —</option>
+        </select>
+        <button class="btn-primary track-confirm-btn" id="track-existing-btn"><span>✅ Log Scan to Selected Plant</span></button>
+      </div>
+
+      <div class="track-or-divider"><span>or</span></div>
+
+      <!-- New Plant Form -->
+      <div class="track-section">
+        <label class="track-label">Create New Tracked Plant</label>
+        <input type="text" id="track-new-plant-name" class="track-input" placeholder="e.g. My Tomato Plant in Backyard" maxlength="80">
+        <button class="btn-primary track-confirm-btn" id="track-create-btn"><span>🌱 Create &amp; Track</span></button>
+      </div>
+
+      <div class="track-error hidden" id="track-error"></div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
